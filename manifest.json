@@ -1,0 +1,38 @@
+{
+  "name": "Messenger Extension",
+  "version": "0.2.0",
+  "description": "Saving timestamps in YT videos",
+  "permissions": ["storage", "tabs"],
+  "host_permissions": ["https://*.google.com/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://messages.google.com/*"],
+      "js": ["contentScript.js"],
+      "css": ["index.css"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "assets/bookmark.png",
+        "assets/play.png",
+        "assets/delete.png",
+        "assets/save.png"
+      ],
+      "matches": ["https://*.google.com/*"]
+    }
+  ],
+  "action": {
+    "default_icon": {
+      "16": "assets/ext-icon.png",
+      "24": "assets/ext-icon.png",
+      "32": "assets/ext-icon.png"
+    },
+    "default_title": "Messenger",
+    "default_popup": "index.html"
+  },
+  "manifest_version": 3
+}

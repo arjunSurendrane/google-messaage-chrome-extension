@@ -1,0 +1,88 @@
+.name-tag {
+  width: 200px;
+  flex: 1;
+  height: 50px;
+  background-color: #f5f5f5;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+}
+.modal-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 5%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999; /* Adjust the z-index value as needed */
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.ext-add-to-list {
+  height: 10px;
+}
+.main-div {
+  max-width: 30rem;
+}
+.name {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.job-title {
+  font-size: 14px;
+  color: #666;
+}
+#root {
+  min-width: 20rem;
+}
+
+.chatUser {
+  display: flex;
+  justify-content: space-between;
+  border: 1px;
+  border-style: solid;
+  margin: 3px;
+  padding: 5px;
+}
+
+.chatUser:hover {
+  background-color: #f5f5f5;
+}
+
+.chatUser-control {
+  margin-top: 6px;
+}
+
+.chatUser-title {
+  padding: 6px;
+  display: flex;
+  justify-content: space-between;
+  border: 1px;
+  min-width: 50%;
+  margin: 5px;
+}
+
+.chatUser-controls img {
+  margin: 0 4px;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+.chatUser-controls {
+  flex: auto;
+  text-align: right;
+}

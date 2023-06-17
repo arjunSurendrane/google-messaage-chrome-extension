@@ -1,3 +1,6 @@
+import { getActiveTabURL } from "./utils.js";
+
+let allMessageBoxes;
 const fetchBookmarks = (id = "message") => {
   console.log("hello");
   return new Promise((resolve) => {
@@ -39,7 +42,7 @@ const addNewBookmark = (rootElement, chatUser) => {
   newBookmarkElement.appendChild(controlsElement);
   rootElement.appendChild(newBookmarkElement);
 
-  newBookmarkElement.addEventListener("click", () => {
+  bookmarkTitleElement.addEventListener("click", () => {
     console.log("clicked" + chatUser[0]);
 
     chrome.tabs.create({
@@ -48,12 +51,21 @@ const addNewBookmark = (rootElement, chatUser) => {
   });
 };
 
-async function onDelete() {
+async function onDelete(e) {
+  const activeTab = await getActiveTabURL();
+
   const chatid = e.target.parentNode.parentNode.getAttribute("timestamp");
   const bookmarkElementToDelete = document.getElementById("chatUser-" + chatid);
 
   bookmarkElementToDelete.parentNode.removeChild(bookmarkElementToDelete);
-  console.log("clicked");
+  const message = allMessageBoxes[0];
+  delete message[chatid];
+  console.log(allMessageBoxes);
+  chrome.runtime.sendMessage({
+    type: "SETDATA",
+    chatid,
+    allMessageBoxes,
+  });
 }
 
 function viewBookmarks(currentMessageList = []) {
@@ -75,8 +87,8 @@ function viewBookmarks(currentMessageList = []) {
 
 document.addEventListener("DOMContentLoaded", async () => {
   chrome.storage.sync.get(["message"], (obj) => {
-    const currentMessageList = obj["message"] ? JSON.parse(obj["message"]) : [];
+    allMessageBoxes = obj["message"] ? JSON.parse(obj["message"]) : [];
 
-    viewBookmarks(currentMessageList);
+    viewBookmarks(allMessageBoxes);
   });
 });

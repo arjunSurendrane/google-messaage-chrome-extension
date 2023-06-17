@@ -60,8 +60,13 @@
     if (!currentChatBoxs.length) currentChatBoxs = [{}];
     const chatData = currentChatBoxs[0];
     chatData[currentParam] = name;
-    chrome.storage.sync.set({
-      ["message"]: JSON.stringify(currentChatBoxs),
+    // chrome.storage.sync.set({
+    //   ["message"]: JSON.stringify(currentChatBoxs),
+    // });
+    chrome.runtime.sendMessage({
+      type: "SETDATA",
+      chatid: currentParam,
+      allMessageBoxes: currentChatBoxs,
     });
     console.log({ currentChatBoxs });
     const modalContainer =

@@ -1,3 +1,13 @@
+const fetchBookmarks = (id = "message") => {
+  console.log("hello");
+  return new Promise((resolve) => {
+    chrome.storage.sync.get(["message"], (obj) => {
+      console.log({ obj });
+      resolve(obj["message"] ? JSON.parse(obj["message"]) : []);
+    });
+  });
+};
+
 const addNewBookmark = (rootElement, chatUser) => {
   const bookmarkTitleElement = document.createElement("div");
   const controlsElement = document.createElement("div");
@@ -29,7 +39,7 @@ const addNewBookmark = (rootElement, chatUser) => {
   newBookmarkElement.appendChild(controlsElement);
   rootElement.appendChild(newBookmarkElement);
 
-  bookmarkTitleElement.addEventListener("click", () => {
+  newBookmarkElement.addEventListener("click", () => {
     console.log("clicked" + chatUser[0]);
 
     chrome.tabs.create({
@@ -38,19 +48,13 @@ const addNewBookmark = (rootElement, chatUser) => {
   });
 };
 
-// async function onDelete(e) {
-//   console.log(e.target.parentNode.parentNode.getAttribute("timestamp"));
-//   const chatid = e.target.parentNode.parentNode.getAttribute("timestamp");
-//   const bookmarkElementToDelete = document.getElementById("chatUser-" + chatid);
-//   bookmarkElementToDelete.parentNode.removeChild(bookmarkElementToDelete);
+async function onDelete() {
+  const chatid = e.target.parentNode.parentNode.getAttribute("timestamp");
+  const bookmarkElementToDelete = document.getElementById("chatUser-" + chatid);
 
-//   //   chrome.storage.sync.get(["message"], (obj) => {
-//   //     const currentChatBoxs = obj["message"] ? JSON.parse(obj["message"]) : [];
-//   //     let messageList = currentChatBoxs[0];
-//   //     delete messageList[chatid];
-//   //     console.log(messageList);
-//   //   });
-// }
+  bookmarkElementToDelete.parentNode.removeChild(bookmarkElementToDelete);
+  console.log("clicked");
+}
 
 function viewBookmarks(currentMessageList = []) {
   const rootElement = document.getElementById("root");

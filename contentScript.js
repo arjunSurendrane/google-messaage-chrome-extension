@@ -1,6 +1,7 @@
 (() => {
   let currentParam;
   let currentChatBoxs = [];
+
   const fetchBookmarks = (id = "message") => {
     return new Promise((resolve) => {
       chrome.storage.sync.get(["message"], (obj) => {
@@ -55,14 +56,14 @@
     currentParam = window.location.href.split("/").slice(-1).join("");
     let name = document.getElementById("nickname-ext").value;
     console.log(name, currentParam);
-    // currentChatBoxs = await fetchBookmarks();
-    // if (!currentChatBoxs.length) currentChatBoxs = [{}];
-    // const chatData = currentChatBoxs[0];
-    // chatData[currentParam] = name;
-    // chrome.storage.sync.set({
-    //   ["message"]: JSON.stringify(currentChatBoxs),
-    // });
-    // console.log({ currentChatBoxs });
+    currentChatBoxs = await fetchBookmarks();
+    if (!currentChatBoxs.length) currentChatBoxs = [{}];
+    const chatData = currentChatBoxs[0];
+    chatData[currentParam] = name;
+    chrome.storage.sync.set({
+      ["message"]: JSON.stringify(currentChatBoxs),
+    });
+    console.log({ currentChatBoxs });
     const modalContainer =
       document.getElementsByClassName("modal-container")[0];
     modalContainer.remove();

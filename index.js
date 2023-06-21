@@ -1,4 +1,5 @@
 let allMessageBoxes;
+
 //this function fetch the data from the chrome storage
 const fetchBookmarks = (id = "message") => {
   return new Promise((resolve) => {
@@ -7,6 +8,49 @@ const fetchBookmarks = (id = "message") => {
     });
   });
 };
+
+// popup.js
+document.addEventListener("DOMContentLoaded", function () {
+  const tagInput = document.getElementById("tagInput");
+  const createTagBtn = document.getElementById("createTagBtn");
+  const tagContainer = document.getElementById("tagContainer");
+
+  // Load existing tags from storage or initialize an empty array
+  let tags = {};
+  chrome.storage.local.get("tags", function (data) {
+    if (data.tags) tags = JSON.parse(data.tags);
+    displayTags();
+  });
+
+  // Display existing tags in the container
+  displayTags();
+
+  createTagBtn.addEventListener("click", function () {
+    const tag = tagInput.value.trim();
+    if (tag !== "") {
+      tags[tag] = [];
+      // localStorage.setItem("tags", JSON.stringify(tags));
+      chrome.runtime.sendMessage({
+        type: "STORE",
+        tags,
+      });
+      displayTags();
+      tagInput.value = "";
+    }
+  });
+
+  function displayTags() {
+    tagContainer.innerHTML = "";
+    for (let tag in tags) {
+      if (tags.hasOwnProperty(tag)) {
+        const tagElement = document.createElement("div");
+        tagElement.textContent = tag;
+        tagContainer.appendChild(tagElement);
+      }
+    }
+  }
+});
+
 // add new name tag for the user chat
 const addNewNameTag = (rootElement, chatUser) => {
   const bookmarkTitleElement = document.createElement("div");

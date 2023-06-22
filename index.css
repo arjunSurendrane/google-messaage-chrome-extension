@@ -19,9 +19,18 @@
   border: 1px;
   border-style: solid;
   background-color: wheat;
+  position: relative;
+  right: 60px;
 }
 .gridcell {
   display: flex;
+}
+.row {
+  display: flex;
+}
+.ext-elements {
+  position: absolute;
+  right: 30px;
 }
 .modal-container {
   align-items: center;
@@ -42,6 +51,8 @@
 
 .ext-add-to-list {
   height: 10px;
+  position: relative;
+  right: 80px;
 }
 .main-div {
   max-width: 30rem;
@@ -49,6 +60,14 @@
 .name {
   font-size: 18px;
   font-weight: bold;
+}
+.modal-tagElements {
+  margin: 5;
+  min-height: 20px;
+  max-width: 40%;
+  border: 1px;
+  border-style: solid;
+  background-color: wheat;
 }
 
 .job-title {

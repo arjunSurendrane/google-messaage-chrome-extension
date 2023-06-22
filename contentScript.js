@@ -14,43 +14,7 @@
     });
   };
 
-  const createModal = () => {
-    // Create modal container
-    const modalContainer = document.createElement("div");
-    modalContainer.className = "modal-container";
-    modalContainer.style.height = "50vh";
-    modalContainer.style.width = "50vw";
-    modalContainer.style.backgroundColor = "white";
-    const closeButton = document.createElement("button");
-    closeButton.className = "close-btn";
-    closeButton.innerText = "X";
-    const submitButton = document.createElement("button");
-    submitButton.className = "submit-btn";
-    submitButton.type = "submit";
-    submitButton.innerText = "Create";
-    // Create modal content
-    const modalContent = document.createElement("div");
-    modalContent.className = "modal-content";
-    const nickNameBox = document.createElement("input");
-    nickNameBox.id = "nickname-ext";
-    nickNameBox.type = "text";
-    nickNameBox.placeholder = "Enter the nickname";
-    // Append modal content to modal container
-    modalContainer.appendChild(closeButton);
-    modalContainer.appendChild(modalContent);
-    modalContainer.appendChild(nickNameBox);
-    modalContainer.appendChild(submitButton);
-    // Append modal container to the body
-    document.body.appendChild(modalContainer);
-    // Close the modal when clicking outside the content
-    closeButton.addEventListener("click", function (event) {
-      modalContainer.style.display = "none";
-    });
-    // submit button for set data in chrome storage
-    submitButton.addEventListener("click", setDateWhenSubmit);
-  };
-
-  function displayTags(e) {
+  function displayTagsInModal(e) {
     chrome.storage.local.get("tags", function (data) {
       if (data.tags) tags = JSON.parse(data?.tags);
 
@@ -74,7 +38,7 @@
       for (let tag in tags) {
         if (tags.hasOwnProperty(tag)) {
           const tagElement = document.createElement("div");
-          tagElement.className = "tagElement";
+          tagElement.className = "modal-tagElements";
           tagElement.textContent = tag;
           bodyDiv.appendChild(tagElement);
           e.target.role = tag;
@@ -84,7 +48,8 @@
               tag,
               currentLink,
             });
-            displayTag();
+            setTimeout(displayTag, 300);
+            modalContainer.style.display = "none";
           });
         }
       }
@@ -119,6 +84,8 @@
       if (data.tags) tags = JSON.parse(data?.tags);
       const parentDiv = document.querySelectorAll('div[role="gridcell"]')[0];
       if (parentDiv) {
+        let MainParent = parentDiv.parentElement;
+        MainParent.className = "row";
         let previousSibling = parentDiv.querySelector("a");
         let currentLink = previousSibling.href;
         console.log(tags);
@@ -162,7 +129,7 @@
         //   parentDiv.appendChild(clonedButton);
         // });
         parentDiv.appendChild(addButton);
-        addButton.addEventListener("click", displayTags);
+        addButton.addEventListener("click", displayTagsInModal);
       } else {
         setTimeout(observeParentDiv, 100);
       }
